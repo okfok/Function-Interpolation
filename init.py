@@ -1,5 +1,5 @@
-import handler
-import window as w
+from GUI import handler
+from GUI import window as w
 
 
 def init():

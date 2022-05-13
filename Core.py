@@ -4,6 +4,8 @@ import numpy as np
 from pydantic import BaseModel, Field
 from scipy import interpolate
 
+import config
+
 
 class Point(BaseModel):
     x: float
@@ -41,6 +43,12 @@ class Interpolation(BaseModel):
     @property
     def y(self) -> np.ndarray:
         return np.array([point.y for point in self.points])
+
+    def get_interval(self):
+        self.points.sort()
+        min_ = self.points[0].x
+        max_ = self.points[-1].x
+        return np.linspace(min_, max_, int((max_ - min_) * config.GRAPH_ACCURACY))
 
     def get_linear_interpolation_func(self) -> Callable:
         return interpolate.interp1d(self.x, self.y)
