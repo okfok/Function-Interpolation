@@ -53,6 +53,9 @@ class Interpolation(BaseModel):
     def get_linear_interpolation_func(self) -> Callable:
         return interpolate.interp1d(self.x, self.y)
 
+    def get_cubic_interpolation_func(self) -> Callable:
+        return interpolate.interp1d(self.x, self.y, kind=3)
+
     def get_newton_interpolation_func(self) -> Callable:
         def table(x, y):
             quotients = [[0] * len(x) for _ in range(len(x))]

@@ -3,8 +3,9 @@ from GUI import window as w
 
 
 def init():
-    handler.pack()
     handler.bind_click_actions()
+    handler.bind_menu()
+    handler.pack()
 
     w.window.mainloop()
 

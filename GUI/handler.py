@@ -7,13 +7,11 @@ def pack():
     w.entryX.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
     w.button_add.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
     w.button_clear.grid(row=3, column=0, sticky="ew", padx=5, pady=5)
-    w.button_open.grid(row=4, column=0, sticky="ew", padx=5, pady=5)
 
     w.labelY.grid(row=0, column=1, sticky="ew", padx=5)
     w.entryY.grid(row=1, column=1, sticky="ew", padx=5, pady=5)
     w.button_remove.grid(row=2, column=1, sticky="ew", padx=5, pady=5)
 
-    w.button_save.grid(row=4, column=1, sticky="ew", padx=5, pady=5)
 
     w.labelX0.grid(row=0, column=2, sticky="ew", padx=5)
     w.entryX0.grid(row=1, column=2, sticky="ew", padx=5, pady=5)
@@ -34,5 +32,15 @@ def bind_click_actions():
     w.button_add.bind("<Button-1>", ca.add_clicked)
     w.button_remove.bind("<Button-1>", ca.remove_clicked)
     w.button_clear.bind("<Button-1>", ca.clear_clicked)
-
     w.button_graph.bind("<Button-1>", ca.graph_clicked)
+
+
+def bind_menu():
+
+    w.menu_file.add_command(label='Open', command=ca.open_clicked)
+    w.menu_file.add_command(label='Save', command=ca.save_clicked)
+
+    w.menu.add_cascade(label='File', menu=w.menu_file)
+
+    w.window.config(menu=w.menu)
+

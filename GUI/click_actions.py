@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter.filedialog import askopenfilename, asksaveasfilename
 
 import matplotlib.pyplot as plt
 from PIL import ImageTk, Image
@@ -21,6 +22,10 @@ def graph_display(img_path):
     w.graph.grid(row=1, column=0, sticky="ew", padx=5)
 
 
+def display_result(x: float, ly: float, ny: float):
+    w.labelResult['text'] = f'Result:\nlinear X0({x}, {ly})\nnewton X0({x}, {ny})'
+
+
 def draw_graph(x0: float = None):
     interp = Core.interp
 
@@ -35,13 +40,18 @@ def draw_graph(x0: float = None):
         plt.plot(interval, linear(interval), '--', label="linear interpolation")
         plt.plot(interval, newton(interval), '--', label="newton interpolation")
 
-        if x0 is not None:
-            plt.plot(x0, linear(x0), 'o', lable='X0 linear')
-            plt.plot(x0, newton(x0), 'o', lable='X0 newton')
+        if isinstance(x0, float):
+            x = x0
+            ly = linear(x0)
+            ny = newton(x0)
+            plt.plot(x, ly, 'o')
+            plt.plot(x, ny, 'o')
+            display_result(x, ly, ny)
 
-        plt.legend(loc=1)
+        plt.legend(loc='best')
 
     plt.xlabel('x')
+    plt.ylabel('y')
     plt.grid(True)
     plt.savefig(config.GRAPH_FILE_PATH)
     plt.close()
@@ -67,32 +77,36 @@ def clear_clicked(event):
 
 
 def graph_clicked(event):
-    draw_graph()
+    try:
+        x0 = float(w.entryX0.get())
+    except:
+        x0 = None
+    draw_graph(x0)
     graph_display(config.GRAPH_FILE_PATH)
 
-# def open_file():
-#     """Открываем файл для редактирования"""
-#     filepath = askopenfilename(
-#         filetypes=[("Текстовые файлы", "*.txt"), ("Все файлы", "*.*")]
-#     )
-#     if not filepath:
-#         return
-#     txt_edit.delete("1.0", tk.END)
-#     with open(filepath, "r") as input_file:
-#         text = input_file.read()
-#         txt_edit.insert(tk.END, text)
-#     window.title(f"Простой текстовый редактор - {filepath}")
-#
-#
-# def save_file():
-#     """Сохраняем текущий файл как новый файл."""
-#     filepath = asksaveasfilename(
-#         defaultextension="txt",
-#         filetypes=[("Текстовые файлы", "*.txt"), ("Все файлы", "*.*")],
-#     )
-#     if not filepath:
-#         return
-#     with open(filepath, "w") as output_file:
-#         text = txt_edit.get("1.0", tk.END)
-#         output_file.write(text)
-#     window.title(f"Простой текстовый редактор - {filepath}")
+
+def open_clicked():
+    filepath = askopenfilename(
+        filetypes=[("Interpolation files", "*.interp"), ("All files", "*.*")]
+    )
+    if not filepath:
+        return
+    Core.interp.clear_points()
+    with open(filepath, "r") as input_file:
+        text = input_file.read()
+        Core.interp = Core.Interpolation.parse_raw(text)
+    display_input_points()
+    # w.window.title(f"Простой текстовый редактор - {filepath}")
+
+
+def save_clicked():
+    filepath = asksaveasfilename(
+        defaultextension=".interp",
+        filetypes=[("Interpolation files", "*.interp"), ("All files", "*.*")],
+    )
+    if not filepath:
+        return
+    with open(filepath, "w") as output_file:
+        text = Core.interp.json()
+        output_file.write(text)
+    # w.window.title(f"Простой текстовый редактор - {filepath}")
