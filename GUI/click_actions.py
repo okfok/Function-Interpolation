@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
@@ -26,7 +27,7 @@ def display_result(x: float, ly: float, ny: float):
     w.labelResult['text'] = f'Result:\nlinear X0({x}, {ly})\nnewton X0({x}, {ny})'
 
 
-def draw_graph(x0: float = None):
+def draw_graph(x0: float = None, file_path=config.GRAPH_FILE_PATH):
     interp = Core.interp
 
     plt.plot(interp.x, interp.y, '.', color='black')
@@ -53,8 +54,16 @@ def draw_graph(x0: float = None):
     plt.xlabel('x')
     plt.ylabel('y')
     plt.grid(True)
-    plt.savefig(config.GRAPH_FILE_PATH)
+    plt.savefig(file_path)
     plt.close()
+
+
+def get_x0():
+    try:
+        x0 = float(w.entryX0.get())
+    except:
+        x0 = None
+    return x0
 
 
 def add_clicked(event):
@@ -77,17 +86,15 @@ def clear_clicked(event):
 
 
 def graph_clicked(event):
-    try:
-        x0 = float(w.entryX0.get())
-    except:
-        x0 = None
-    draw_graph(x0)
+    draw_graph(get_x0())
     graph_display(config.GRAPH_FILE_PATH)
+    os.remove(config.GRAPH_FILE_PATH)
 
 
 def open_clicked():
     filepath = askopenfilename(
-        filetypes=[("Interpolation files", "*.interp"), ("All files", "*.*")]
+        filetypes=[("Interpolation files", "*.interp"), ("All files", "*.*")],
+        initialdir='~/',
     )
     if not filepath:
         return
@@ -96,17 +103,27 @@ def open_clicked():
         text = input_file.read()
         Core.interp = Core.Interpolation.parse_raw(text)
     display_input_points()
-    # w.window.title(f"Простой текстовый редактор - {filepath}")
 
 
 def save_clicked():
     filepath = asksaveasfilename(
         defaultextension=".interp",
         filetypes=[("Interpolation files", "*.interp"), ("All files", "*.*")],
+        initialdir='~/',
     )
     if not filepath:
         return
     with open(filepath, "w") as output_file:
         text = Core.interp.json()
         output_file.write(text)
-    # w.window.title(f"Простой текстовый редактор - {filepath}")
+
+
+def export_graph():
+    filepath = asksaveasfilename(
+        defaultextension=".png",
+        filetypes=[("Images", "*.png"), ("All files", "*.*")],
+        initialdir='~/',
+    )
+    if not filepath:
+        return
+    draw_graph(get_x0(), filepath)

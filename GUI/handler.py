@@ -12,7 +12,6 @@ def pack():
     w.entryY.grid(row=1, column=1, sticky="ew", padx=5, pady=5)
     w.button_remove.grid(row=2, column=1, sticky="ew", padx=5, pady=5)
 
-
     w.labelX0.grid(row=0, column=2, sticky="ew", padx=5)
     w.entryX0.grid(row=1, column=2, sticky="ew", padx=5, pady=5)
     w.button_graph.grid(row=2, column=2, sticky="ew", padx=5, pady=5)
@@ -36,11 +35,10 @@ def bind_click_actions():
 
 
 def bind_menu():
-
     w.menu_file.add_command(label='Open', command=ca.open_clicked)
     w.menu_file.add_command(label='Save', command=ca.save_clicked)
+    w.menu_file.add_command(label='Export Graph', command=ca.export_graph)
 
     w.menu.add_cascade(label='File', menu=w.menu_file)
 
     w.window.config(menu=w.menu)
-

@@ -22,7 +22,14 @@ button_remove = tk.Button(frameInput, text='Remove')
 button_clear = tk.Button(frameInput, text='Clear')
 button_graph = tk.Button(frameInput, text="Graph")
 
-labelPoints = tk.Label(frameMenu, text='', width=20, height=25, bg='white')
+labelPoints = tk.Label(
+    frameMenu,
+    text='',
+    width=20,
+    height=28,
+    bg='white',
+    relief=tk.SUNKEN
+)
 
 frameOutput = tk.Frame(window)
 
