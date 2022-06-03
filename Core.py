@@ -80,11 +80,8 @@ class Interpolation(BaseModel):
 
         def linear_func(x0: float) -> float:
             y1 = y2 = x1 = x2 = None
-            for i in range(len(points)):
-                if x0 == points[i].x:
-                    return points[i].y
-
-                if points[i].x < x0 < points[i + 1].x:
+            for i in range(len(points)-1):
+                if points[i].x <= x0 <= points[i + 1].x:
                     x1 = points[i].x
                     x2 = points[i + 1].x
                     y1 = points[i].y
