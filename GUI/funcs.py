@@ -1,77 +1,77 @@
 import tkinter as tk
 
 import Core
-from GUI import prog
+from GUI.main import app
 
 
 def set_x_y(point: Core.Point) -> None:
-    prog.entryX.delete(0, tk.END)
-    prog.entryY.delete(0, tk.END)
-    prog.entryX.insert(0, str(point.x))
-    prog.entryY.insert(0, str(point.y))
+    app.entryX.delete(0, tk.END)
+    app.entryY.delete(0, tk.END)
+    app.entryX.insert(0, str(point.x))
+    app.entryY.insert(0, str(point.y))
 
 
 def get_x_y() -> tuple:
     x, y = None, None
     try:
-        x = float(prog.entryX.get())
-        y = float(prog.entryY.get())
+        x = float(app.entryX.get())
+        y = float(app.entryY.get())
     except ValueError:
         pass
-    prog.entryX.delete(0, tk.END)
-    prog.entryY.delete(0, tk.END)
+    app.entryX.delete(0, tk.END)
+    app.entryY.delete(0, tk.END)
     return (x, y) if None not in (x, y) else None
 
 
 def get_x0():
     try:
-        x0 = float(prog.entryX0.get())
-        return x0 if prog.interp.x_validate(x0) else None
+        x0 = float(app.entryX0.get())
+        return x0 if app.interp.x_validate(x0) else None
     except ValueError:
         return
 
 
 def delete_selected_points() -> None:
-    for index in reversed(prog.pointsListBox.curselection()):
-        prog.interp.delete_point(index)
+    for index in reversed(app.pointsListBox.curselection()):
+        app.interp.delete_point(index)
 
 
 def display_input_points():
-    prog.pointsListBox.delete(0, tk.END)
-    for text in map(str, prog.interp.points):
-        prog.pointsListBox.insert(tk.END, text)
+    app.pointsListBox.delete(0, tk.END)
+    for text in map(str, app.interp.points):
+        app.pointsListBox.insert(tk.END, text)
 
 
 def display_result(x: float, ly: float, ny: float):
-    prog.labelResult['text'] = \
+    app.labelResult['text'] = \
         'Result:\n' + \
         (f'Linear ({round(x, 5)}, {round(ly, 5)})\n'
-         if prog.checkbox_linear.get() and ly is not None
+         if app.checkbox_linear.get() and ly is not None
          else 'Linear -\n') + \
         (f'Newton ({round(x, 5)}, {round(ny, 5)})'
-         if prog.checkbox_newton.get() and ny is not None
+         if app.checkbox_newton.get() and ny is not None
          else 'Newton -')
 
 
 def draw_graph(x0: float = None):
-    prog.figure.clear()
-    subplot = prog.figure.add_subplot(111)
+    app.figure.clear()
+    subplot = app.figure.add_subplot(111)
 
-    subplot.plot(prog.interp.x, prog.interp.y, '.', color='black')
+    subplot.plot(app.interp.x, app.interp.y, '.', color='black')
 
-    if len(prog.interp.points) >= 2:
-        interval = prog.interp.get_interval()
+    if len(app.interp.points) >= 2:
+        interval = app.interp.get_interval()
         ly = ny = None
 
-        if prog.checkbox_linear.get():
-            linear = prog.interp.get_linear_interpolation_func()
+        if app.checkbox_linear.get():
+            linear = app.interp.get_linear_interpolation_func()
             subplot.plot(interval, list(map(linear, interval)), '--', label="linear interpolation")
             if isinstance(x0, float):
                 ly = linear(x0)
                 subplot.plot(x0, ly, 'o')
 
-        if prog.checkbox_newton.get():
-            newton = prog.interp.get_newton_interpolation_func()
+        if app.checkbox_newton.get():
+            newton = app.interp.get_newton_interpolation_func()
             subplot.plot(interval, list(map(newton, interval)), '-.', label="newton interpolation")
             if isinstance(x0, float):
                 ny = newton(x0)
@@ -85,5 +85,5 @@ def draw_graph(x0: float = None):
     subplot.set_ylabel('y')
     subplot.grid(True)
 
-    prog.graph.draw()
-    prog.toolbar.update()
+    app.graph.draw()
+    app.toolbar.update()

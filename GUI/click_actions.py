@@ -3,7 +3,8 @@ from tkinter.filedialog import askopenfilename, asksaveasfilename
 import Core
 import config
 import examples
-from GUI import prog, funcs
+from GUI import funcs
+from GUI.main import app
 
 
 # Buttons ------------------------------------------
@@ -13,7 +14,7 @@ def add_clicked(event):
         x, y = funcs.get_x_y()
     except TypeError:
         return
-    prog.interp.add_point(Core.Point(x, y))
+    app.interp.add_point(Core.Point(x, y))
     funcs.display_input_points()
 
 
@@ -23,7 +24,7 @@ def delete_clicked(event):
 
 
 def clear_clicked(event):
-    prog.interp.clear_points()
+    app.interp.clear_points()
     funcs.display_input_points()
 
 
@@ -33,8 +34,8 @@ def graph_clicked(event):
 
 
 def listbox_clicked(event):
-    index, *_ = prog.pointsListBox.curselection()
-    point = prog.interp.points[index]
+    index, *_ = app.pointsListBox.curselection()
+    point = app.interp.points[index]
     print(point)
     funcs.set_x_y(point)
 
@@ -48,10 +49,10 @@ def open_clicked():
     )
     if not filepath:
         return
-    prog.interp.clear_points()
+    app.interp.clear_points()
     with open(filepath, "r") as input_file:
         json = input_file.read()
-        prog.interp = Core.Interpolation.parse_raw(json)
+        app.interp = Core.Interpolation.parse_raw(json)
     funcs.display_input_points()
 
 
@@ -64,42 +65,37 @@ def save_clicked():
     if not filepath:
         return
     with open(filepath, "w") as output_file:
-        json = prog.interp.json()
+        json = app.interp.json()
         output_file.write(json)
-
-
-def exit_clicked():
-    prog.window.quit()
-    prog.window.destroy()
 
 
 # Examples -----------------------------------------
 
 def sqrt_example():
-    prog.interp = examples.sqrt()
+    app.interp = examples.sqrt()
     funcs.display_input_points()
 
 
 def quadratic_example():
-    prog.interp = examples.quadratic()
+    app.interp = examples.quadratic()
     funcs.display_input_points()
 
 
 def cubic_example():
-    prog.interp = examples.cubic()
+    app.interp = examples.cubic()
     funcs.display_input_points()
 
 
 def sin_example():
-    prog.interp = examples.sin()
+    app.interp = examples.sin()
     funcs.display_input_points()
 
 
 def cos_example():
-    prog.interp = examples.cos()
+    app.interp = examples.cos()
     funcs.display_input_points()
 
 
 def rand_example():
-    prog.interp = examples.rand()
+    app.interp = examples.rand()
     funcs.display_input_points()
