@@ -1,95 +1,44 @@
-import os
-import tkinter as tk
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
-import matplotlib.pyplot as plt
-from PIL import ImageTk, Image
-
 import Core
-import GUI.window as w
-import config
+import examples
+from GUI import prog, funcs
 
 
-def display_input_points():
-    w.labelPoints['text'] = str(Core.interp)
-
-
-def graph_display(img_path):
-    img = Image.open(img_path)
-    img.resize((250, 250), Image.ANTIALIAS)
-    img = ImageTk.PhotoImage(img)
-    w.graph = tk.Label(w.frameOutput, image=img)
-    w.graph.image = img
-    w.graph.grid(row=1, column=0, sticky="ew", padx=5)
-
-
-def display_result(x: float, ly: float, ny: float):
-    w.labelResult['text'] = f'Result:\nlinear X0({x}, {ly})\nnewton X0({x}, {ny})'
-
-
-def draw_graph(x0: float = None, file_path=config.GRAPH_FILE_PATH):
-    interp = Core.interp
-
-    plt.plot(interp.x, interp.y, '.', color='black')
-
-    if len(interp.points) >= 2:
-        linear = interp.get_linear_interpolation_func()
-        newton = interp.get_newton_interpolation_func()
-
-        interval = interp.get_interval()
-
-        plt.plot(interval, linear(interval), '--', label="linear interpolation")
-        plt.plot(interval, newton(interval), '--', label="newton interpolation")
-
-        if isinstance(x0, float):
-            x = x0
-            ly = linear(x0)
-            ny = newton(x0)
-            plt.plot(x, ly, 'o')
-            plt.plot(x, ny, 'o')
-            display_result(x, ly, ny)
-
-        plt.legend(loc='best')
-
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.grid(True)
-    plt.savefig(file_path)
-    plt.close()
-
-
-def get_x0():
-    try:
-        x0 = float(w.entryX0.get())
-    except:
-        x0 = None
-    return x0
-
+# Buttons ------------------------------------------
 
 def add_clicked(event):
-    x = float(w.entryX.get())
-    y = float(w.entryY.get())
-    Core.interp.add_point(Core.Point(x, y))
-    display_input_points()
+    try:
+        x, y = funcs.get_x_y()
+    except TypeError:
+        return
+    prog.interp.add_point(Core.Point(x, y))
+    funcs.display_input_points()
 
 
-def remove_clicked(event):
-    x = float(w.entryX.get())
-    y = float(w.entryY.get())
-    Core.interp.remove_point(Core.Point(x, y))
-    display_input_points()
+def delete_clicked(event):
+    funcs.delete_selected_points()
+    funcs.display_input_points()
 
 
 def clear_clicked(event):
-    Core.interp.clear_points()
-    display_input_points()
+    prog.interp.clear_points()
+    funcs.display_input_points()
 
 
 def graph_clicked(event):
-    draw_graph(get_x0())
-    graph_display(config.GRAPH_FILE_PATH)
-    os.remove(config.GRAPH_FILE_PATH)
+    funcs.draw_graph(funcs.get_x0())
+    # funcs.display_graph(fig)
 
+
+def listbox_clicked(event):
+    index, *_ = prog.pointsListBox.curselection()
+    point = prog.interp.points[index]
+    print(point)
+    funcs.set_x_y(point)
+
+
+# File menu ----------------------------------------
 
 def open_clicked():
     filepath = askopenfilename(
@@ -98,11 +47,11 @@ def open_clicked():
     )
     if not filepath:
         return
-    Core.interp.clear_points()
+    prog.interp.clear_points()
     with open(filepath, "r") as input_file:
-        text = input_file.read()
-        Core.interp = Core.Interpolation.parse_raw(text)
-    display_input_points()
+        json = input_file.read()
+        prog.interp = Core.Interpolation.parse_raw(json)
+    funcs.display_input_points()
 
 
 def save_clicked():
@@ -114,16 +63,37 @@ def save_clicked():
     if not filepath:
         return
     with open(filepath, "w") as output_file:
-        text = Core.interp.json()
-        output_file.write(text)
+        json = prog.interp.json()
+        output_file.write(json)
 
 
-def export_graph():
-    filepath = asksaveasfilename(
-        defaultextension=".png",
-        filetypes=[("Images", "*.png"), ("All files", "*.*")],
-        initialdir='~/',
-    )
-    if not filepath:
-        return
-    draw_graph(get_x0(), filepath)
+def quit_clicked():
+    prog.window.quit()
+    prog.window.destroy()
+
+
+# Examples -----------------------------------------
+
+def sqrt_example():
+    prog.interp = examples.sqrt()
+    funcs.display_input_points()
+
+
+def quadratic_example():
+    prog.interp = examples.quadratic()
+    funcs.display_input_points()
+
+
+def cubic_example():
+    prog.interp = examples.cubic()
+    funcs.display_input_points()
+
+
+def sin_example():
+    prog.interp = examples.sin()
+    funcs.display_input_points()
+
+
+def cos_example():
+    prog.interp = examples.cos()
+    funcs.display_input_points()

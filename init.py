@@ -1,5 +1,5 @@
 from GUI import handler
-from GUI import window as w
+from GUI import prog
 
 
 def init():
@@ -7,7 +7,7 @@ def init():
     handler.bind_menu()
     handler.pack()
 
-    w.window.mainloop()
+    prog.window.mainloop()
 
 
 if __name__ == '__main__':
