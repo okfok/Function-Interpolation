@@ -15,7 +15,7 @@ class Point(BaseModel):
         return self.x < other.x
 
     def __str__(self):
-        return f'({self.x}, {self.y})'
+        return f'({round(self.x, 5)}, {round(self.y, 5)})'
 
     def __init__(self, x: float, y: float):
         super(Point, self).__init__(x=x, y=y)

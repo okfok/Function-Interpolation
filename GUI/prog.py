@@ -35,9 +35,9 @@ labelX = tk.Label(frameInput, text="X")
 labelY = tk.Label(frameInput, text="Y")
 labelX0 = tk.Label(frameInput, text="X0")
 
-entryX = tk.Entry(frameInput, width=15)
-entryY = tk.Entry(frameInput, width=15)
-entryX0 = tk.Entry(frameInput, width=15)
+entryX = tk.Entry(frameInput, width=10)
+entryY = tk.Entry(frameInput, width=10)
+entryX0 = tk.Entry(frameInput, width=10)
 
 button_add = tk.Button(frameInput, text='Add')
 button_delete = tk.Button(frameInput, text='Delete')
@@ -52,10 +52,9 @@ scrollbar = tk.Scrollbar(frameMenu)
 pointsListBox = tk.Listbox(
     scrollbar,
     selectmode=tk.EXTENDED,
-    width=45,
+    width=30,
     height=30,
     bg='white',
-    relief=tk.SUNKEN
 )
 
 frameOutput = tk.Frame(window, bg='white')

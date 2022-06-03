@@ -45,10 +45,10 @@ def display_input_points():
 def display_result(x: float, ly: float, ny: float):
     prog.labelResult['text'] = \
         'Result:\n' + \
-        (f'Linear ({x}, {ly})\n'
+        (f'Linear ({round(x, 5)}, {round(ly, 5)})\n'
          if prog.checkbox_linear.get() and ly is not None
          else 'Linear -\n') + \
-        (f'Newton ({x}, {ny})'
+        (f'Newton ({round(x, 5)}, {round(ny, 5)})'
          if prog.checkbox_newton.get() and ny is not None
          else 'Newton -')
 
