@@ -6,6 +6,18 @@ from matplotlib.figure import Figure
 
 import Core
 
+
+class Checkbutton(tk.Checkbutton):
+
+    def __init__(self, master, **kwargs):
+        self.var = tk.BooleanVar()
+        self.var.set(True)
+        super(Checkbutton, self).__init__(master, **kwargs, variable=self.var, onvalue=1, offvalue=0)
+
+    def get(self):
+        return self.var.get()
+
+
 interp = Core.Interpolation()
 
 window = tk.Tk()
@@ -32,6 +44,9 @@ button_delete = tk.Button(frameInput, text='Delete')
 button_clear = tk.Button(frameInput, text='Clear')
 button_graph = tk.Button(frameInput, text="Graph")
 
+checkbox_linear = Checkbutton(frameInput, text="Linear")
+checkbox_newton = Checkbutton(frameInput, text="Newton")
+
 scrollbar = tk.Scrollbar(frameMenu)
 
 pointsListBox = tk.Listbox(
@@ -45,7 +60,7 @@ pointsListBox = tk.Listbox(
 
 frameOutput = tk.Frame(window, bg='white')
 
-labelResult = tk.Label(frameOutput, text="Result:\nLinear X0()\nNewton X0()", bg='white')
+labelResult = tk.Label(frameOutput, text="Result:\nLinear -\nNewton -", bg='white')
 
 figure = Figure()
 graph = FigureCanvasTkAgg(figure, master=frameOutput)

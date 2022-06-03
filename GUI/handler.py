@@ -3,18 +3,20 @@ from GUI import prog
 
 
 def pack():
-    prog.labelX.grid(row=0, column=0, sticky="ew", padx=5)
+    prog.labelX.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
     prog.entryX.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
     prog.button_add.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
     prog.button_clear.grid(row=3, column=0, sticky="ew", padx=5, pady=5)
 
-    prog.labelY.grid(row=0, column=1, sticky="ew", padx=5)
+    prog.labelY.grid(row=0, column=1, sticky="ew", padx=5, pady=5)
     prog.entryY.grid(row=1, column=1, sticky="ew", padx=5, pady=5)
     prog.button_delete.grid(row=2, column=1, sticky="ew", padx=5, pady=5)
+    prog.button_graph.grid(row=3, column=1, sticky="ew", padx=5, pady=5)
 
-    prog.labelX0.grid(row=0, column=2, sticky="ew", padx=5)
+    prog.labelX0.grid(row=0, column=2, sticky="ew", padx=5, pady=5)
     prog.entryX0.grid(row=1, column=2, sticky="ew", padx=5, pady=5)
-    prog.button_graph.grid(row=2, column=2, sticky="ew", padx=5, pady=5)
+    prog.checkbox_linear.grid(row=2, column=2, sticky="ew", padx=5, pady=5)
+    prog.checkbox_newton.grid(row=3, column=2, sticky="ew", padx=5, pady=5)
 
     prog.frameInput.grid(row=0, column=0, sticky="ns")
     prog.scrollbar.grid(row=1, column=0, padx=5, pady=5)

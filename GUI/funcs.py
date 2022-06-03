@@ -43,7 +43,14 @@ def display_input_points():
 
 
 def display_result(x: float, ly: float, ny: float):
-    prog.labelResult['text'] = f'Result:\nLinear X0({x}, {ly})\nNewton X0({x}, {ny})'
+    prog.labelResult['text'] = \
+        'Result:\n' + \
+        (f'Linear ({x}, {ly})\n'
+         if prog.checkbox_linear.get() and ly is not None
+         else 'Linear -\n') + \
+        (f'Newton ({x}, {ny})'
+         if prog.checkbox_newton.get() and ny is not None
+         else 'Newton -')
 
 
 def draw_graph(x0: float = None):
@@ -54,19 +61,23 @@ def draw_graph(x0: float = None):
 
     if len(prog.interp.points) >= 2:
         interval = prog.interp.get_interval()
+        ly = ny = None
 
-        linear = prog.interp.get_linear_interpolation_func()
-        subplot.plot(interval, list(map(linear, interval)), '--', label="linear interpolation")
+        if prog.checkbox_linear.get():
+            linear = prog.interp.get_linear_interpolation_func()
+            subplot.plot(interval, list(map(linear, interval)), '--', label="linear interpolation")
+            if isinstance(x0, float):
+                ly = linear(x0)
+                subplot.plot(x0, ly, 'o')
 
-        newton = prog.interp.get_newton_interpolation_func()
-        subplot.plot(interval, list(map(newton, interval)), '-.', label="newton interpolation")
+        if prog.checkbox_newton.get():
+            newton = prog.interp.get_newton_interpolation_func()
+            subplot.plot(interval, list(map(newton, interval)), '-.', label="newton interpolation")
+            if isinstance(x0, float):
+                ny = newton(x0)
+                subplot.plot(x0, ny, 'o')
 
-        if isinstance(x0, float):
-            ly = linear(x0)
-            ny = newton(x0)
-            subplot.plot(x0, ly, 'o')
-            subplot.plot(x0, ny, 'o')
-            display_result(x0, ly, ny)
+        display_result(x0, ly, ny)
 
         subplot.legend(loc='best')
 
