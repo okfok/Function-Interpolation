@@ -97,3 +97,8 @@ def sin_example():
 def cos_example():
     prog.interp = examples.cos()
     funcs.display_input_points()
+
+
+def rand_example():
+    prog.interp = examples.rand()
+    funcs.display_input_points()

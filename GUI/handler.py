@@ -46,6 +46,7 @@ def bind_menu():
     prog.menu_examples.add_command(label='Cubic', command=ca.cubic_example)
     prog.menu_examples.add_command(label='Sin', command=ca.sin_example)
     prog.menu_examples.add_command(label='Cos', command=ca.cos_example)
+    prog.menu_examples.add_command(label='Rand', command=ca.rand_example)
 
     prog.menu.add_cascade(label='Examples', menu=prog.menu_examples)
 

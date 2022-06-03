@@ -1,3 +1,5 @@
+from random import randint
+
 import numpy as np
 
 import Core
@@ -28,4 +30,12 @@ def cos():
         points=[
             Core.Point(np.pi * x / 180, np.cos(np.pi * x / 180))
             for x in range(-180, 181, 30)]
+    )
+
+
+def rand():
+    return Core.Interpolation(
+        points=[
+            Core.Point(x, randint(-10, 11))
+            for x in range(-10, 11)]
     )
