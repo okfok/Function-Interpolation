@@ -1,6 +1,7 @@
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
 import Core
+import config
 import examples
 from GUI import prog, funcs
 
@@ -42,8 +43,8 @@ def listbox_clicked(event):
 
 def open_clicked():
     filepath = askopenfilename(
-        filetypes=[("Interpolation files", "*.interp"), ("All files", "*.*")],
-        initialdir='~/',
+        filetypes=config.INTERPOLATION_FILE_TYPE,
+        initialdir=config.INITIAL_DIR,
     )
     if not filepath:
         return
@@ -56,9 +57,9 @@ def open_clicked():
 
 def save_clicked():
     filepath = asksaveasfilename(
-        defaultextension=".interp",
-        filetypes=[("Interpolation files", "*.interp"), ("All files", "*.*")],
-        initialdir='~/',
+        defaultextension=config.INTERPOLATION_FILE_EXTENSION,
+        filetypes=config.INTERPOLATION_FILE_TYPE,
+        initialdir=config.INITIAL_DIR,
     )
     if not filepath:
         return
