@@ -67,7 +67,7 @@ def save_clicked():
         output_file.write(json)
 
 
-def quit_clicked():
+def exit_clicked():
     prog.window.quit()
     prog.window.destroy()
 

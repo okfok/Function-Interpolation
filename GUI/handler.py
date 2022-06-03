@@ -38,6 +38,7 @@ def bind_click_actions():
 def bind_menu():
     prog.menu_file.add_command(label='Open', command=ca.open_clicked)
     prog.menu_file.add_command(label='Save', command=ca.save_clicked)
+    prog.menu_file.add_command(label='Exit', command=ca.exit_clicked)
 
     prog.menu.add_cascade(label='File', menu=prog.menu_file)
 
