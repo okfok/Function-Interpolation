@@ -65,10 +65,16 @@ def draw_graph(x0: float = None):
 
         if app.checkbox_linear.get():
             linear = app.interp.get_linear_interpolation_func()
-            subplot.plot(interval, list(map(linear, interval)), '--', label="linear interpolation")
+            subplot.plot(
+                interval,
+                list(map(linear, interval)),
+                '--',
+                label="linear interpolation",
+                color='blue'
+            )
             if isinstance(x0, float):
                 ly = linear(x0)
-                subplot.plot(x0, ly, 'o')
+                subplot.plot(x0, ly, 'o', color='blue')
 
         if app.checkbox_newton.get():
             import warnings
@@ -76,10 +82,15 @@ def draw_graph(x0: float = None):
             try:
                 newton = app.interp.get_newton_interpolation_func()
                 y = list(map(newton, interval))
-                subplot.plot(interval, y, '-.', label="newton interpolation")
+                subplot.plot(
+                    interval,
+                    y, '-.',
+                    label="newton interpolation",
+                    color='green'
+                )
                 if isinstance(x0, float):
                     ny = newton(x0)
-                    subplot.plot(x0, ny, 'o')
+                    subplot.plot(x0, ny, 'o', color='green')
             except Warning:
                 pass
 
