@@ -38,28 +38,28 @@ class App:
         self.menu_file = tk.Menu(self.menu, tearoff=0)
         self.menu_examples = tk.Menu(self.menu, tearoff=0)
 
-        self.frameMenu = tk.Frame(self._root, relief=tk.RAISED, bd=2)
-        self.frameInput = tk.Frame(self.frameMenu)
+        self.frame_menu = tk.Frame(self._root, relief=tk.RAISED, bd=2)
+        self.frame_input = tk.Frame(self.frame_menu)
 
-        self.labelX = tk.Label(self.frameInput, text="X")
-        self.labelY = tk.Label(self.frameInput, text="Y")
-        self.labelX0 = tk.Label(self.frameInput, text="X0")
+        self.labelX = tk.Label(self.frame_input, text="X")
+        self.labelY = tk.Label(self.frame_input, text="Y")
+        self.labelX0 = tk.Label(self.frame_input, text="X0")
 
-        self.entryX = tk.Entry(self.frameInput, width=10)
-        self.entryY = tk.Entry(self.frameInput, width=10)
-        self.entryX0 = tk.Entry(self.frameInput, width=10)
+        self.entryX = tk.Entry(self.frame_input, width=10)
+        self.entryY = tk.Entry(self.frame_input, width=10)
+        self.entryX0 = tk.Entry(self.frame_input, width=10)
 
-        self.button_add = tk.Button(self.frameInput, text='Add')
-        self.button_delete = tk.Button(self.frameInput, text='Delete')
-        self.button_clear = tk.Button(self.frameInput, text='Clear')
-        self.button_graph = tk.Button(self.frameInput, text="Graph")
+        self.button_add = tk.Button(self.frame_input, text='Add')
+        self.button_delete = tk.Button(self.frame_input, text='Delete')
+        self.button_clear = tk.Button(self.frame_input, text='Clear')
+        self.button_graph = tk.Button(self.frame_input, text="Graph")
 
-        self.checkbox_linear = Checkbutton(self.frameInput, text="Linear")
-        self.checkbox_newton = Checkbutton(self.frameInput, text="Newton")
+        self.checkbox_linear = Checkbutton(self.frame_input, text="Linear")
+        self.checkbox_newton = Checkbutton(self.frame_input, text="Newton")
 
-        self.scrollbar = tk.Scrollbar(self.frameMenu)
+        self.scrollbar = tk.Scrollbar(self.frame_menu)
 
-        self.pointsListBox = tk.Listbox(
+        self.listbox_points = tk.Listbox(
             self.scrollbar,
             selectmode=tk.EXTENDED,
             width=30,
@@ -67,17 +67,17 @@ class App:
             bg='white',
         )
 
-        self.frameOutput = tk.Frame(self._root, bg='white')
+        self.frame_output = tk.Frame(self._root, bg='white')
 
-        self.labelResult = tk.Label(
-            self.frameOutput,
+        self.label_result = tk.Label(
+            self.frame_output,
             text="Result:\nLinear -\nNewton -",
             bg='white'
         )
 
         self.figure = Figure()
-        self.graph = FigureCanvasTkAgg(self.figure, master=self.frameOutput)
-        self.toolbar = NavigationToolbar2Tk(self.graph, self.frameOutput)
+        self.canvas = FigureCanvasTkAgg(self.figure, master=self.frame_output)
+        self.toolbar = NavigationToolbar2Tk(self.canvas, self.frame_output)
 
     def mainloop(self):
         self._root.mainloop()

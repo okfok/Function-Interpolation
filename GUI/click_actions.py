@@ -34,7 +34,7 @@ def graph_clicked(event):
 
 
 def listbox_clicked(event):
-    index, *_ = app.pointsListBox.curselection()
+    index, *_ = app.listbox_points.curselection()
     point = app.interp.points[index]
     print(point)
     funcs.set_x_y(point)

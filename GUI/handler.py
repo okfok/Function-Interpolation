@@ -18,16 +18,16 @@ def pack():
     app.checkbox_linear.grid(row=2, column=2, sticky="ew", padx=5, pady=5)
     app.checkbox_newton.grid(row=3, column=2, sticky="ew", padx=5, pady=5)
 
-    app.frameInput.grid(row=0, column=0, sticky="ns")
+    app.frame_input.grid(row=0, column=0, sticky="ns")
     app.scrollbar.grid(row=1, column=0, padx=5, pady=5)
-    app.pointsListBox.grid(row=1, column=0, sticky="ew")
+    app.listbox_points.grid(row=1, column=0, sticky="ew")
 
-    app.frameMenu.grid(row=0, column=0, sticky="ns")
+    app.frame_menu.grid(row=0, column=0, sticky="ns")
 
-    app.labelResult.pack(padx=5, pady=10)
-    app.graph.get_tk_widget().pack()
+    app.label_result.pack(padx=5, pady=10)
+    app.canvas.get_tk_widget().pack()
 
-    app.frameOutput.grid(row=0, column=1, sticky="ns")
+    app.frame_output.grid(row=0, column=1, sticky="ns")
 
 
 def bind_click_actions():

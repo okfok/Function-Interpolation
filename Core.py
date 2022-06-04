@@ -55,7 +55,7 @@ class Interpolation(BaseModel):
         if point in self.points:
             self.points.remove(point)
 
-    def delete_point(self, index: int) -> None:
+    def del_point(self, index: int) -> None:
         if 0 <= index <= len(self.points):
             self.points.pop(index)
 
@@ -78,13 +78,13 @@ class Interpolation(BaseModel):
     def get_linear_interpolation_func(self) -> Callable:
         points = copy.deepcopy(self.points)
 
-        def linear_func(x0: float) -> float:
+        def linear_interpolation_func(x0: float) -> float:
             for i in range(len(points) - 1):
                 if points[i].x <= x0 <= points[i + 1].x:
                     return (points[i + 1].y - points[i].y) * (x0 - points[i].x) \
                            / (points[i + 1].x - points[i].x) + points[i].y
 
-        return linear_func
+        return linear_interpolation_func
 
     def get_newton_interpolation_func(self) -> Callable:
         def table(x, y):
@@ -108,7 +108,7 @@ class Interpolation(BaseModel):
         quotients_table = table(self.x, self.y)
         corners = get_corner(quotients_table)
 
-        def newton_func(x0: float):
+        def newton_interpolation_func(x0: float):
             result = corners[0]
             for i in range(1, len(corners)):
                 p = corners[i]
@@ -117,4 +117,4 @@ class Interpolation(BaseModel):
                 result += p
             return result
 
-        return newton_func
+        return newton_interpolation_func

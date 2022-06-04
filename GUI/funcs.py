@@ -32,18 +32,18 @@ def get_x0():
 
 
 def delete_selected_points() -> None:
-    for index in reversed(app.pointsListBox.curselection()):
-        app.interp.delete_point(index)
+    for index in reversed(app.listbox_points.curselection()):
+        app.interp.del_point(index)
 
 
 def display_input_points():
-    app.pointsListBox.delete(0, tk.END)
+    app.listbox_points.delete(0, tk.END)
     for text in map(str, app.interp.points):
-        app.pointsListBox.insert(tk.END, text)
+        app.listbox_points.insert(tk.END, text)
 
 
 def display_result(x: float, ly: float, ny: float):
-    app.labelResult['text'] = \
+    app.label_result['text'] = \
         'Result:\n' + \
         (f'Linear ({round(x, 5)}, {round(ly, 5)})\n'
          if app.checkbox_linear.get() and ly is not None
@@ -102,5 +102,5 @@ def draw_graph(x0: float = None):
     subplot.set_ylabel('y')
     subplot.grid(True)
 
-    app.graph.draw()
+    app.canvas.draw()
     app.toolbar.update()
