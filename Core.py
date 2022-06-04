@@ -79,17 +79,10 @@ class Interpolation(BaseModel):
         points = copy.deepcopy(self.points)
 
         def linear_func(x0: float) -> float:
-            y1 = y2 = x1 = x2 = None
-            for i in range(len(points)-1):
+            for i in range(len(points) - 1):
                 if points[i].x <= x0 <= points[i + 1].x:
-                    x1 = points[i].x
-                    x2 = points[i + 1].x
-                    y1 = points[i].y
-                    y2 = points[i + 1].y
-
-            if None in (x1, x2, y1, y2):
-                raise ValueError()
-            return (y2 - y1) * (x0 - x1) / (x2 - x1) + y1
+                    return (points[i + 1].y - points[i].y) * (x0 - points[i].x) \
+                           / (points[i + 1].x - points[i].x) + points[i].y
 
         return linear_func
 
