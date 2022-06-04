@@ -71,11 +71,17 @@ def draw_graph(x0: float = None):
                 subplot.plot(x0, ly, 'o')
 
         if app.checkbox_newton.get():
-            newton = app.interp.get_newton_interpolation_func()
-            subplot.plot(interval, list(map(newton, interval)), '-.', label="newton interpolation")
-            if isinstance(x0, float):
-                ny = newton(x0)
-                subplot.plot(x0, ny, 'o')
+            import warnings
+            warnings.filterwarnings('error')
+            try:
+                newton = app.interp.get_newton_interpolation_func()
+                y = list(map(newton, interval))
+                subplot.plot(interval, y, '-.', label="newton interpolation")
+                if isinstance(x0, float):
+                    ny = newton(x0)
+                    subplot.plot(x0, ny, 'o')
+            except Warning:
+                pass
 
         display_result(x0, ly, ny)
 
