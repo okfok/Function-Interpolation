@@ -25,7 +25,7 @@ def cos():
     return core.Interpolation(
         points=[
             core.Point(np.pi * x / 180, np.cos(np.pi * x / 180))
-            for x in range(-180, 181, 30)]
+            for x in range(-180, 361, 30)]
     )
 
 
