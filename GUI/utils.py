@@ -1,9 +1,10 @@
 import tkinter as tk
 
+import core
 from GUI.app import app
 
 
-def get_x_y() -> tuple:
+def get_point() -> core.Point:
     x, y = None, None
     try:
         x = float(app.entryX.get())
@@ -12,7 +13,7 @@ def get_x_y() -> tuple:
         pass
     app.entryX.delete(0, tk.END)
     app.entryY.delete(0, tk.END)
-    return (x, y) if None not in (x, y) else None
+    return core.Point(x, y) if None not in (x, y) else None
 
 
 def get_x0():
@@ -28,7 +29,7 @@ def delete_selected_points() -> None:
         app.interp.del_point(index)
 
 
-def display_input_points():
+def display_points():
     app.listbox_points.delete(0, tk.END)
     for text in map(str, app.interp.points):
         app.listbox_points.insert(tk.END, text)

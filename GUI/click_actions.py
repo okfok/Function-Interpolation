@@ -10,22 +10,19 @@ from GUI.app import app
 # Buttons ------------------------------------------
 
 def add_clicked(event):
-    try:
-        x, y = utils.get_x_y()
-    except TypeError:
-        return
-    app.interp.add_point(core.Point(x, y))
-    utils.display_input_points()
+    point = utils.get_point()
+    app.interp.add_point(point)
+    utils.display_points()
 
 
 def delete_clicked(event):
     utils.delete_selected_points()
-    utils.display_input_points()
+    utils.display_points()
 
 
 def clear_clicked(event):
     app.interp.clear_points()
-    utils.display_input_points()
+    utils.display_points()
 
 
 def graph_clicked(event):
@@ -45,7 +42,7 @@ def open_clicked():
     with open(filepath, "r") as input_file:
         json = input_file.read()
         app.interp = core.Interpolation.parse_raw(json)
-    utils.display_input_points()
+    utils.display_points()
 
 
 def save_clicked():
@@ -65,24 +62,24 @@ def save_clicked():
 
 def quadratic_example():
     app.interp = examples.quadratic()
-    utils.display_input_points()
+    utils.display_points()
 
 
 def cubic_example():
     app.interp = examples.cubic()
-    utils.display_input_points()
+    utils.display_points()
 
 
 def sin_example():
     app.interp = examples.sin()
-    utils.display_input_points()
+    utils.display_points()
 
 
 def cos_example():
     app.interp = examples.cos()
-    utils.display_input_points()
+    utils.display_points()
 
 
 def rand_example():
     app.interp = examples.rand()
-    utils.display_input_points()
+    utils.display_points()
