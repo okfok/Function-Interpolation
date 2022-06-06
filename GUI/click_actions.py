@@ -32,13 +32,6 @@ def graph_clicked(event):
     utils.draw_graph(utils.get_x0())
 
 
-def listbox_clicked(event):
-    index, *_ = app.listbox_points.curselection()
-    point = app.interp.points[index]
-    print(point)
-    utils.set_x_y(point)
-
-
 # File menu ----------------------------------------
 
 def open_clicked():

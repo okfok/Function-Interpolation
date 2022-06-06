@@ -1,14 +1,6 @@
 import tkinter as tk
 
-import core
 from GUI.app import app
-
-
-def set_x_y(point: core.Point) -> None:
-    app.entryX.delete(0, tk.END)
-    app.entryY.delete(0, tk.END)
-    app.entryX.insert(0, str(point.x))
-    app.entryY.insert(0, str(point.y))
 
 
 def get_x_y() -> tuple:
