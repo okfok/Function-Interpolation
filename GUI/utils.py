@@ -48,9 +48,9 @@ def display_result(x: float, ly: float, ny: float):
 
 def draw_graph(x0: float = None):
     app.figure.clear()
-    subplot = app.figure.add_subplot(111)
+    ax = app.figure.add_subplot(111)
 
-    subplot.plot(app.interp.x, app.interp.y, '.', color='black')
+    ax.plot(app.interp.x, app.interp.y, '.', color='black')
 
     if len(app.interp.points) >= 2:
         interval = app.interp.get_interval()
@@ -58,7 +58,7 @@ def draw_graph(x0: float = None):
 
         if app.checkbox_linear.get():
             linear = app.interp.linear_interpolation_func
-            subplot.plot(
+            ax.plot(
                 interval,
                 list(map(linear, interval)),
                 '--',
@@ -67,7 +67,7 @@ def draw_graph(x0: float = None):
             )
             if isinstance(x0, float):
                 ly = linear(x0)
-                subplot.plot(x0, ly, 'o', color='blue')
+                ax.plot(x0, ly, 'o', color='blue')
 
         if app.checkbox_newton.get():
             import warnings
@@ -75,7 +75,7 @@ def draw_graph(x0: float = None):
             try:
                 newton = app.interp.get_newton_interpolation_func()
                 y = list(map(newton, interval))
-                subplot.plot(
+                ax.plot(
                     interval,
                     y, '-.',
                     label="newton interpolation",
@@ -83,17 +83,17 @@ def draw_graph(x0: float = None):
                 )
                 if isinstance(x0, float):
                     ny = newton(x0)
-                    subplot.plot(x0, ny, 'o', color='green')
+                    ax.plot(x0, ny, 'o', color='green')
             except Warning:
                 pass
 
         display_result(x0, ly, ny)
 
-        subplot.legend(loc='best')
+        ax.legend(loc='best')
 
-    subplot.set_xlabel('x')
-    subplot.set_ylabel('y')
-    subplot.grid(True)
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.grid(True)
 
     app.canvas.draw()
     app.toolbar.update()
