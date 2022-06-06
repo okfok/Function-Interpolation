@@ -70,11 +70,6 @@ def save_clicked():
 
 # Examples menu-------------------------------------
 
-def sqrt_example():
-    app.interp = examples.sqrt()
-    utils.display_input_points()
-
-
 def quadratic_example():
     app.interp = examples.quadratic()
     utils.display_input_points()

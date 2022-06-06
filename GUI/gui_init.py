@@ -44,7 +44,6 @@ def bind_menu():
 
     app.menu.add_cascade(label='File', menu=app.menu_file)
 
-    app.menu_examples.add_command(label='Sqrt', command=ca.sqrt_example)
     app.menu_examples.add_command(label='Quadratic', command=ca.quadratic_example)
     app.menu_examples.add_command(label='Cubic', command=ca.cubic_example)
     app.menu_examples.add_command(label='Sin', command=ca.sin_example)

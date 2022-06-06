@@ -5,10 +5,6 @@ import numpy as np
 import core
 
 
-def sqrt():
-    return core.Interpolation(points=[core.Point(y ** 2, y) for y in range(6)])
-
-
 def quadratic():
     return core.Interpolation(points=[core.Point(x, x ** 2) for x in range(-5, 6)])
 
@@ -37,5 +33,5 @@ def rand():
     return core.Interpolation(
         points=[
             core.Point(x, randint(-10, 11))
-            for x in range(-100, 101)]
+            for x in range(-10, 11)]
     )
