@@ -1,5 +1,5 @@
 import GUI.click_actions as ca
-from GUI.main import app
+from GUI.app import app
 
 
 def pack():

@@ -1,4 +1,3 @@
-import copy
 from typing import Callable
 
 import numpy as np
@@ -16,6 +15,9 @@ class Point(BaseModel):
 
     def __str__(self):
         return f'({round(self.x, 5)}, {round(self.y, 5)})'
+
+    def __add__(self, other: 'Point'):
+        return Point(self.x + other.x, self.y + other.y)
 
     def __init__(self, x: float, y: float):
         super(Point, self).__init__(x=x, y=y)
@@ -43,13 +45,13 @@ class Interpolation(BaseModel):
     def max_x(self) -> float:
         return self.points[-1].x
 
-    def _sort_points(self) -> None:
+    def sort_points(self) -> None:
         self.points.sort()
 
     def add_point(self, point: Point) -> None:
-        if point not in self.points:
+        if not any(point.x == p.x for p in self.points):
             self.points.append(point)
-            self._sort_points()
+            self.sort_points()
 
     def remove_point(self, point: Point) -> None:
         if point in self.points:
@@ -69,22 +71,17 @@ class Interpolation(BaseModel):
             return False
 
     def get_interval(self) -> np.linspace:
-        self._sort_points()
+        self.sort_points()
         return np.linspace(
             self.min_x, self.max_x,
             int((self.max_x - self.min_x) * config.GRAPH_ACCURACY)
         )
 
-    def get_linear_interpolation_func(self) -> Callable:
-        points = copy.deepcopy(self.points)
-
-        def linear_interpolation_func(x0: float) -> float:
-            for i in range(len(points) - 1):
-                if points[i].x <= x0 <= points[i + 1].x:
-                    return (points[i + 1].y - points[i].y) * (x0 - points[i].x) \
-                           / (points[i + 1].x - points[i].x) + points[i].y
-
-        return linear_interpolation_func
+    def linear_interpolation_func(self, x0: float) -> float:
+        for i in range(len(self.points) - 1):
+            if self.points[i].x <= x0 <= self.points[i + 1].x:
+                return (self.points[i + 1].y - self.points[i].y) * (x0 - self.points[i].x) \
+                       / (self.points[i + 1].x - self.points[i].x) + self.points[i].y
 
     def get_newton_interpolation_func(self) -> Callable:
         def table(x, y):

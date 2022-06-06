@@ -4,7 +4,7 @@ from matplotlib.backends._backend_tk import NavigationToolbar2Tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-import Core
+import core
 
 
 class Checkbutton(tk.Checkbutton):
@@ -26,7 +26,7 @@ class Checkbutton(tk.Checkbutton):
 
 class App:
     def __init__(self):
-        self.interp = Core.Interpolation()
+        self.interp = core.Interpolation()
 
         self._root = tk.Tk()
         self._root.resizable(False, False)

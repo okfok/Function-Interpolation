@@ -1,10 +1,10 @@
 import tkinter as tk
 
-import Core
-from GUI.main import app
+import core
+from GUI.app import app
 
 
-def set_x_y(point: Core.Point) -> None:
+def set_x_y(point: core.Point) -> None:
     app.entryX.delete(0, tk.END)
     app.entryY.delete(0, tk.END)
     app.entryX.insert(0, str(point.x))
@@ -64,7 +64,7 @@ def draw_graph(x0: float = None):
         ly = ny = None
 
         if app.checkbox_linear.get():
-            linear = app.interp.get_linear_interpolation_func()
+            linear = app.interp.linear_interpolation_func
             subplot.plot(
                 interval,
                 list(map(linear, interval)),
