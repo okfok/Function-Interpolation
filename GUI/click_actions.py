@@ -1,5 +1,7 @@
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
+from pydantic import ValidationError
+
 import config
 import core
 import examples
@@ -41,7 +43,10 @@ def open_clicked():
     app.interp.clear_points()
     with open(filepath, "r") as input_file:
         json = input_file.read()
-        app.interp = core.Interpolation.parse_raw(json)
+        try:
+            app.interp = core.Interpolation.parse_raw(json)
+        except ValidationError:
+            pass
     utils.display_points()
 
 
