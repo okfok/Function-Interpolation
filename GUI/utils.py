@@ -19,11 +19,17 @@ def get_point() -> core.Point:
 
 
 def get_x0():
-    try:
-        x0 = float(app.entryX0.get())
-        return x0 if app.interp.x_validate(x0) else None
-    except ValueError:
+    x0 = app.entryX0.get()
+    if x0 == '':
         return
+    try:
+        x0 = float(x0)
+        if app.interp.x_validate(x0):
+            return x0
+        else:
+            messagebox.showerror("Value error", "X0 is out of interpolation range!")
+    except ValueError:
+        messagebox.showerror("Value error", "X0 should be number!")
 
 
 def delete_selected_points() -> None:
