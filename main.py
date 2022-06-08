@@ -3,9 +3,9 @@ from GUI.app import app
 
 
 def main():
-    gui_init.bind_click_actions()
-    gui_init.bind_menu()
     gui_init.pack()
+    gui_init.bind_menu()
+    gui_init.bind_click_actions()
 
     app.mainloop()
 
