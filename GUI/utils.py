@@ -50,7 +50,7 @@ def draw_graph(x0: float = None):
     app.figure.clear()
     ax = app.figure.add_subplot(111)
 
-    ax.plot(app.interp.x, app.interp.y, '.', color='black')
+    ax.plot(app.interp.x, app.interp.y, '.', label="input points", color='black')
 
     if len(app.interp.points) >= 2:
         interval = app.interp.get_interval()
