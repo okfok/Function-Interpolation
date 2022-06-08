@@ -59,43 +59,49 @@ def draw_graph(x0: float = None):
     ax = app.figure.add_subplot(111)
 
     ax.plot(app.interp.x, app.interp.y, '.', label="input points", color='black')
+    ly = ny = None
+    interval = app.interp.get_interval()
 
-    if len(app.interp.points) >= 2:
-        interval = app.interp.get_interval()
-        ly = ny = None
+    if app.checkbox_linear.get() and len(app.interp.points) >= 2:
+        linear = app.interp.linear_interpolation_func
+        ax.plot(
+            interval,
+            list(map(linear, interval)),
+            '--',
+            label="linear interpolation",
+            color='blue'
+        )
+        if isinstance(x0, float):
+            ly = linear(x0)
+            ax.plot(x0, ly, 'o', color='blue')
 
-        if app.checkbox_linear.get():
-            linear = app.interp.linear_interpolation_func
-            ax.plot(
-                interval,
-                list(map(linear, interval)),
-                '--',
-                label="linear interpolation",
-                color='blue'
-            )
-            if isinstance(x0, float):
-                ly = linear(x0)
-                ax.plot(x0, ly, 'o', color='blue')
+    if app.checkbox_newton.get() and len(app.interp.points) >= 3:
+        newton = app.interp.get_newton_interpolation_func()
+        y = list(map(newton, interval))
+        ax.plot(
+            interval,
+            y, '-.',
+            label="newton interpolation",
+            color='green'
+        )
+        if isinstance(x0, float):
+            ny = newton(x0)
+            ax.plot(x0, ny, 'o', color='green')
 
-        if app.checkbox_newton.get():
-            newton = app.interp.get_newton_interpolation_func()
-            y = list(map(newton, interval))
-            ax.plot(
-                interval,
-                y, '-.',
-                label="newton interpolation",
-                color='green'
-            )
-            if isinstance(x0, float):
-                ny = newton(x0)
-                ax.plot(x0, ny, 'o', color='green')
-        display_result(x0, ly, ny)
+    display_result(x0, ly, ny)
 
-        ax.legend(loc='best')
-
+    ax.legend(loc='best')
     ax.set_xlabel('x')
     ax.set_ylabel('y')
     ax.grid(True)
 
     app.canvas.draw()
     app.toolbar.update()
+
+    match len(app.interp.points):
+        case l if l < 2:
+            messagebox.showerror("Value error", "Not enough points!\nShould be 2 or more")
+        case 2:
+            messagebox.showwarning("Warning", "You enter 2 point.\nNewton interpolation is similar to linear")
+        case _:
+            pass
