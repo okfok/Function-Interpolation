@@ -84,7 +84,7 @@ class Interpolation(BaseModel):
                        / (self.points[i + 1].x - self.points[i].x) + self.points[i].y
 
     def get_newton_interpolation_func(self) -> Callable:
-        def table(x, y):
+        def get_quotients_table(x, y):
             quotients = [[0] * len(x) for _ in range(len(x))]
 
             for i in range(len(x)):
@@ -96,19 +96,18 @@ class Interpolation(BaseModel):
 
             return quotients
 
-        def get_corner(quotients):
-            link = []
+        def get_quot_diag(quotients):
+            diag = []
             for i in range(len(quotients)):
-                link.append(quotients[i][i])
-            return link
+                diag.append(quotients[i][i])
+            return diag
 
-        quotients_table = table(self.x, self.y)
-        corners = get_corner(quotients_table)
+        quot_diag = get_quot_diag(get_quotients_table(self.x, self.y))
 
         def newton_interpolation_func(x0: float):
-            result = corners[0]
-            for i in range(1, len(corners)):
-                p = corners[i]
+            result = quot_diag[0]
+            for i in range(1, len(quot_diag)):
+                p = quot_diag[i]
                 for j in range(i):
                     p *= (x0 - self.x[j])
                 result += p
