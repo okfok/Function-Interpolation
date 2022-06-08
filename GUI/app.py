@@ -86,5 +86,8 @@ class App:
         self._root.quit()
         self._root.destroy()
 
+    def update(self):
+        self._root.update()
+
 
 app = App()

@@ -1,3 +1,4 @@
+from tkinter import messagebox
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
 from pydantic import ValidationError
@@ -11,23 +12,35 @@ from GUI.app import app
 
 # Buttons ------------------------------------------
 
-def add_clicked(event):
+def add_clicked():
     point = utils.get_point()
-    app.interp.add_point(point)
+    if point is None:
+        return
+    try:
+        app.interp.add_point(point)
+    except ValueError:
+        messagebox.showerror("Value error", "List already has point with that X")
+        app.update()
+        return
+    except TypeError:
+        messagebox.showwarning("Value error", "You should enter X and Y")
+        app.update()
+        return
+
     utils.display_points()
 
 
-def delete_clicked(event):
+def delete_clicked():
     utils.delete_selected_points()
     utils.display_points()
 
 
-def clear_clicked(event):
+def clear_clicked():
     app.interp.clear_points()
     utils.display_points()
 
 
-def graph_clicked(event):
+def graph_clicked():
     utils.draw_graph(utils.get_x0())
 
 
@@ -46,7 +59,7 @@ def open_clicked():
         try:
             app.interp = core.Interpolation.parse_raw(json)
         except ValidationError:
-            pass
+            messagebox.showerror("File error", "File is broken!")
     utils.display_points()
 
 

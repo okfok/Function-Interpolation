@@ -31,10 +31,10 @@ def pack():
 
 
 def bind_click_actions():
-    app.button_add.bind("<Button>", ca.add_clicked)
-    app.button_delete.bind("<Button>", ca.delete_clicked)
-    app.button_clear.bind("<Button>", ca.clear_clicked)
-    app.button_graph.bind("<Button>", ca.graph_clicked)
+    app.button_add.config(command=ca.add_clicked)
+    app.button_delete.config(command=ca.delete_clicked)
+    app.button_clear.config(command=ca.clear_clicked)
+    app.button_graph.config(command=ca.graph_clicked)
 
 
 def bind_menu():

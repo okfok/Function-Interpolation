@@ -1,19 +1,21 @@
 import tkinter as tk
+from tkinter import messagebox
 
 import core
 from GUI.app import app
 
 
 def get_point() -> core.Point:
-    x, y = None, None
     try:
         x = float(app.entryX.get())
         y = float(app.entryY.get())
     except ValueError:
-        pass
+        messagebox.showerror("Value error", "X and Y should be numbers!")
+        app.update()
+        return
     app.entryX.delete(0, tk.END)
     app.entryY.delete(0, tk.END)
-    return core.Point(x, y) if None not in (x, y) else None
+    return core.Point(x, y)
 
 
 def get_x0():
@@ -70,23 +72,17 @@ def draw_graph(x0: float = None):
                 ax.plot(x0, ly, 'o', color='blue')
 
         if app.checkbox_newton.get():
-            import warnings
-            warnings.filterwarnings('error')
-            try:
-                newton = app.interp.get_newton_interpolation_func()
-                y = list(map(newton, interval))
-                ax.plot(
-                    interval,
-                    y, '-.',
-                    label="newton interpolation",
-                    color='green'
-                )
-                if isinstance(x0, float):
-                    ny = newton(x0)
-                    ax.plot(x0, ny, 'o', color='green')
-            except Warning:
-                pass
-
+            newton = app.interp.get_newton_interpolation_func()
+            y = list(map(newton, interval))
+            ax.plot(
+                interval,
+                y, '-.',
+                label="newton interpolation",
+                color='green'
+            )
+            if isinstance(x0, float):
+                ny = newton(x0)
+                ax.plot(x0, ny, 'o', color='green')
         display_result(x0, ly, ny)
 
         ax.legend(loc='best')

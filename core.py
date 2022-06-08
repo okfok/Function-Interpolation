@@ -49,7 +49,9 @@ class Interpolation(BaseModel):
         self.points.sort()
 
     def add_point(self, point: Point) -> None:
-        if not any(point.x == p.x for p in self.points):
+        if not isinstance(point, Point) or any(point.x == p.x for p in self.points):
+            raise ValueError("List already has point with that X")
+        else:
             self.points.append(point)
             self.sort_points()
 
