@@ -70,7 +70,7 @@ class Interpolation(BaseModel):
         else:
             return False
 
-    def get_interval(self) -> np.linspace:
+    def get_interval(self) -> np.ndarray:
         self.sort_points()
         return np.linspace(
             self.min_x, self.max_x,
