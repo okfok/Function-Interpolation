@@ -76,7 +76,7 @@ class Interpolation(BaseModel):
         self.sort_points()
         return np.linspace(
             self.min_x, self.max_x,
-            int((self.max_x - self.min_x) * config.GRAPH_ACCURACY)
+            len(self.points) * config.GRAPH_ACCURACY
         )
 
     def linear_interpolation_func(self, x0: float) -> float:
