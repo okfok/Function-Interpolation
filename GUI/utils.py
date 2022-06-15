@@ -13,6 +13,9 @@ def get_point() -> core.Point:
         messagebox.showerror("Value error", "X and Y should be numbers!")
         app.update()
         return
+    if core.INF in (x, y):
+        messagebox.showerror("Value error", "X and Y should be numbers!")
+        return
     app.entryX.delete(0, tk.END)
     app.entryY.delete(0, tk.END)
     return core.Point(x, y)

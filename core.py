@@ -5,6 +5,8 @@ from pydantic import BaseModel, Field
 
 import config
 
+INF = float('inf')
+
 
 class Point(BaseModel):
     x: float
